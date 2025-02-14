@@ -16,11 +16,10 @@ data = [
 ]
 
 # Nama file CSV
-file_path = "data_mahasiswa.csv"
+file_path = "data_mahasiswa22.csv"
 
 # Menulis data ke file CSV
 with open(file_path, mode="w", newline="") as file:
     writer = csv.writer(file)
     writer.writerows(data)
 
-file_path

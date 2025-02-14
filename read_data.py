@@ -1,8 +1,8 @@
 import csv
 
-with open('data_mahasiswa.csv','r') as csv_file:
+with open('data_mahasiswa22.csv', 'r') as csv_file:
     csv_reader = csv.DictReader(csv_file)
+    data_list = list(csv_reader)
+    data_len = len(data_list)
 
-
-    for line in csv_reader:
-        print(line)
+print(data_len)
