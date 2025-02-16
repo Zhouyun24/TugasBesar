@@ -3,7 +3,6 @@ import os
 
 csv_filename = 'data_mahasiswa.csv'
 
-
 # Menampilkan Menu Utama
 def show_menu():
     print("\n==== Aplikasi Mahasiswa ====")
@@ -47,7 +46,6 @@ def back_to_menu():
 def show_mahasiswa():
 
     data_mahasiswa = []
-
     # Validasi File
     if not os.path.exists(csv_filename):
         print("Tidak ada data!")
@@ -225,19 +223,12 @@ def edit_mahasiswa():
     else:
         with open(csv_filename, 'w', newline='') as csv_data:
             csv_writer = csv.writer(csv_data)
-            csv_writer.writerow(header)  # Tulis header kembali
-            csv_writer.writerows(data_mahasiswa)  # Tulis data yang diperbarui
+            csv_writer.writerow(header)
+            csv_writer.writerows(data_mahasiswa)
 
         print("Data mahasiswa berhasil diperbarui!")
 
     back_to_menu()
-
-
-import csv
-import os
-
-csv_filename = 'data_mahasiswa.csv'
-
 
 # Pencarian Data Mahasiswa
 def search_mahasiswa():
@@ -323,4 +314,5 @@ def sort_mahasiswa():
 
 
 # Jalankan program
-show_menu()
+if __name__ == "__main__":
+    show_menu()
