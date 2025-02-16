@@ -16,9 +16,14 @@ def show_menu():
     print('-' * 30)
 
     select_menu = input("Pilih Menu (Dalam Bentuk Angka): ")
+    print('-' * 50)
+
 
     if select_menu == '1':
+        print("\n=== Data Mahasiswa ===")
+        print("-" * 50)
         show_mahasiswa()
+        back_to_menu()
     elif select_menu == '2':
         create_mahasiswa()
     elif select_menu == '3':
@@ -30,6 +35,7 @@ def show_menu():
     elif select_menu == '6':
         sort_mahasiswa()
     elif select_menu == '0':
+        print("Terimakasih Telah Menggunakan Aplikasi")
         exit()
     else:
         print("Menu Tidak Ada!")
@@ -52,6 +58,7 @@ def input_tidak_kosong(pesan):
 
 #Menampilkan Data Mahasiswa
 def show_mahasiswa():
+
     if not os.path.exists(csv_filename):
         print("Tidak ada data!")
         back_to_menu()
@@ -72,13 +79,15 @@ def show_mahasiswa():
     else:
         print("Tidak ada data!")
     print("-" * 50)
-    back_to_menu()
 
 
 #Membuat Data Mahasiswa Baru
 def create_mahasiswa():
-    validasi = input("Ingin Melanjutkan Membuat Data? (Y/T): ").upper()
-    if validasi == 'T':
+    print("\n=== Membuat Data Mahasiswa ===")
+    print("-"*50)
+
+    validasi = input("Ingin Melanjutkan Membuat Data? (Y/T): ").lower()
+    if validasi == 't':
         show_menu()
 
     nama = input_tidak_kosong('Nama  : ')
@@ -96,24 +105,11 @@ def create_mahasiswa():
 
 #Menghapus Data Mahasiswa
 def delete_mahasiswa():
-    if not os.path.exists(csv_filename):
-        print("Tidak ada data untuk dihapus!")
-        back_to_menu()
-        return
+    print("\n=== Menghapus Data Mahasiswa ===")
+    print("-"*50)
 
-    with open(csv_filename, 'r', newline='') as csv_data:
-        csv_reader = csv.reader(csv_data, delimiter=",")
-        data_mahasiswa = list(csv_reader)
+    show_mahasiswa()
 
-    if len(data_mahasiswa) > 0:
-        header = ["No", "Nama", "Email"]
-        print(f"{header[0]} \t {header[1]} \t {header[2]}")
-        print("-" * 50)
-
-        for idx, data in enumerate(data_mahasiswa[1:], 1):
-            print(f"{idx} \t {data[0]} \t {data[1]}")
-
-    print("-" * 50)
     nomor_hapus = int(input_tidak_kosong("Masukkan No mahasiswa yang ingin dihapus (Masukan 0 Jika Tidak Mau Hapus): "))
 
     with open(csv_filename, 'r', newline='') as csv_data:
@@ -121,8 +117,8 @@ def delete_mahasiswa():
 
     if nomor_hapus < 0 or nomor_hapus >= len(data_mahasiswa):
         print("Nomor mahasiswa tidak valid!")
-        ulang = input("Ingin Mengulang?(Y/T)").upper()
-        if (ulang == "Y"):
+        ulang = input("Ingin Mengulang?(Y/T)").lower()
+        if (ulang == "y"):
             delete_mahasiswa()
         else:
             show_menu()
@@ -142,24 +138,10 @@ def delete_mahasiswa():
 
 #Mengubah Data Mahasiwa
 def edit_mahasiswa():
-    if not os.path.exists(csv_filename):
-        print("Tidak ada data untuk diedit!")
-        back_to_menu()
-        return
+    print("\n=== Mengubah Data Mahasiswa ===")
+    print("-"*50)
 
-    with open(csv_filename, 'r', newline='') as csv_data:
-        csv_reader = csv.reader(csv_data, delimiter=",")
-        data_mahasiswa = list(csv_reader)
-
-    if len(data_mahasiswa) > 0:
-        header = ["No", "Nama", "Email"]
-        print(f"{header[0]} \t {header[1]} \t {header[2]}")
-        print("-" * 50)
-
-        for idx, data in enumerate(data_mahasiswa[1:], 1):
-            print(f"{idx} \t {data[0]} \t {data[1]}")
-
-    print("-" * 50)
+    show_mahasiswa()
 
     nomor_edit = int(input_tidak_kosong("Masukkan No mahasiswa yang ingin diedit (Masukan 0 Jika Tidak Mau Edit): "))
 
@@ -196,15 +178,19 @@ def search_mahasiswa():
     print("\n=== Pencarian Data Mahasiswa ===")
     print("[1] Berdasarkan Keseluruhan Data (Nama/Email)")
     print("[2] Berdasarkan Sebagian Kata (Mengandung kata tertentu)")
-    pilihan = input_tidak_kosong("Pilih jenis pencarian (1/2): ")
-
-    keyword = input_tidak_kosong("Masukkan kata kunci pencarian: ").lower()
+    print("[0] Kembali Ke Menu")
+    pilihan = input_tidak_kosong("Pilih Menu: ")
+    if pilihan == "0":
+        show_menu()
+    else:
+        keyword = input_tidak_kosong("Masukkan kata kunci pencarian: ").lower()
 
     with open(csv_filename, 'r', newline='') as csv_data:
         data_mahasiswa = list(csv.reader(csv_data))
 
     header = ["No", "Nama", "Email"]
     hasil_pencarian = []
+
 
     for idx, row in enumerate(data_mahasiswa[1:], 1):
         if pilihan == '1' and keyword in ' '.join(row).lower():
@@ -235,6 +221,7 @@ def sort_mahasiswa():
     print("[2] Berdasarkan Nama (Z-A)")
     print("[3] Berdasarkan Email (A-Z)")
     print("[4] Berdasarkan Email (Z-A)")
+    print("[0] Kembali Ke Menu")
     pilihan = input_tidak_kosong("Pilih metode pengurutan (1-4): ")
 
     with open(csv_filename, 'r', newline='') as csv_data:
@@ -251,6 +238,8 @@ def sort_mahasiswa():
         data.sort(key=lambda x: x[1].lower())  # Email A-Z
     elif pilihan == '4':
         data.sort(key=lambda x: x[1].lower(), reverse=True)  # Email Z-A
+    elif pilihan == '0':
+        show_menu()
     else:
         print("Pilihan tidak valid!")
         back_to_menu()
